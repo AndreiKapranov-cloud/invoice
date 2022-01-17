@@ -1,0 +1,51 @@
+<template>
+  
+    <lightning-card title="Send Invoice" icon-name="custom:custom14">
+        <div class="slds-m-around_medium">
+            <div class="slds-m-top_medium slds-m-bottom_x-large">
+
+                <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                    Enter email
+                </h2>
+                <div class="slds-p-around_medium lgc-bg">
+                    <lightning-input label = 'Address' type="email" value={address.data}  placeholder="type here..." name="emailAddress" required readonly>Email Address</lightning-input>
+                </div>
+                <div class="slds-p-around_medium lgc-bg">
+                    <lightning-input label = 'Subject' type="subject" value={mySubject}   placeholder="type here..."  name="emailSubject" required readonly>Subject</lightning-input >
+                </div>
+                <div class="slds-p-around_medium lgc-bg">
+                    <lightning-input label = 'Recipient' type="recipient" value={recipient.data}   placeholder="type here..."  name="emailRecipient" required readonly>Subject</lightning-input >
+                </div>
+                <div class="slds-p-around_medium lgc-bg">
+                    <lightning-input label = 'Body' type="body" value ={myBody}  onchange={handleChangeBody} placeholder="type here..." name="emailBody" required>Body</lightning-input>
+                </div>
+            </div>
+            <lightning-button onclick={sendEmailHandler} label="Send Email" variant="brand" ></lightning-button>  
+            <lightning-button style='margin-left:16px' onclick={showPdfHandler} label="Show PDF file" variant="brand" ></lightning-button>
+        </div>
+    </lightning-card>
+
+  <!-- <template if:true={fileID}>
+        <lightning-tabset variant="scoped">
+            <template for:each={tabs} for:item="tab">
+                <lightning-tab key={tab.value} label={tab.label} value={tab.value} onactive={setFileID}>
+                </lightning-tab>
+            </template>
+        </lightning-tabset> -->  
+     
+            <template if:true={showPdf}>
+            <c-show-pdf-by-id 
+            height-in-rem={heightInRem}
+            file-id={fileID}
+        ></c-show-pdf-by-id>
+        </template>
+   
+   <!-- </template>
+   -->
+    <template if:false={fileID}>
+        <lightning-card><div>No related PDF file found.</div></lightning-card>
+    </template>
+
+    <!-- Conditionally render the error in error component. Taken from https://github.com/trailheadapps/lwc-recipes/tree/master/force-app/main/default/lwc/errorPanel -->
+    
+</template>
