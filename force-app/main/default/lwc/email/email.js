@@ -1,6 +1,7 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
-import getRecipient from '@salesforce/apex/EmailHandler.getRecipient';
+import getRecipientFName from '@salesforce/apex/EmailHandler.getRecipientFName';
+import getRecipientName from '@salesforce/apex/EmailHandler.getRecipientName';
 import getInvoiceNumber from '@salesforce/apex/EmailHandler.getInvoiceNumber';
 import sendEmail from '@salesforce/apex/EmailHandler.sendEmail';
 import getAddress from '@salesforce/apex/EmailHandler.getAddress';
@@ -13,7 +14,8 @@ export default class SendEmail extends LightningElement {
    recordId;
   
    @wire(getInvoiceNumber, {idOpportunity: '$recordId'}) invoiceNumber;
-   @wire(getRecipient, {idOpportunity: '$recordId'}) recipient;
+   @wire(getRecipientFName, {idOpportunity: '$recordId'}) recipientFN;
+   @wire(getRecipientName, {idOpportunity: '$recordId'}) recipientName;
    @wire(getAddress, {idOpportunity: '$recordId'}) address;
    @wire(getOpportunity,{idOpportunity: '$recordId'}) opp;
    
@@ -44,7 +46,7 @@ export default class SendEmail extends LightningElement {
     }                                                                                         
     
     get myBody() {
-        return (this.record?.Body).replace(/{!Contact.FirstName}/g,this.recipient.data);                       //JSON.stringify(this.recipient.data));
+        return (this.record?.Body).replace(/{!Contact.FirstName}/g,this.recipientFN.data);                       //JSON.stringify(this.recipient.data));
     }
   
     handleChangeEmail(event) {

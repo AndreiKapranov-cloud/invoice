@@ -1,6 +1,4 @@
 import { LightningElement, api,wire } from 'lwc';
-import getInvoiceFileId from '@salesforce/apex/ShowPdfById.getInvoiceFileId';
-
 
 
 export default class ShowPdfById extends LightningElement {

@@ -14,10 +14,10 @@
                     <lightning-input label = 'Subject' type="subject" value={mySubject}   placeholder="type here..."  name="emailSubject" required readonly>Subject</lightning-input >
                 </div>
                 <div class="slds-p-around_medium lgc-bg">
-                    <lightning-input label = 'Recipient' type="recipient" value={recipient.data}   placeholder="type here..."  name="emailRecipient" required readonly>Subject</lightning-input >
+                    <lightning-input label = 'Recipient' type="recipient" value={recipientName.data}   placeholder="type here..."  name="emailRecipient" required readonly>Subject</lightning-input >
                 </div>
                 <div class="slds-p-around_medium lgc-bg">
-                    <lightning-input label = 'Body' type="body" value ={myBody}  onchange={handleChangeBody} placeholder="type here..." name="emailBody" required>Body</lightning-input>
+                    <lightning-textarea label = 'Body' type="body" value ={myBody}  onchange={handleChangeBody} placeholder="type here..." name="emailBody" required>Body</lightning-textarea>
                 </div>
             </div>
             <lightning-button onclick={sendEmailHandler} label="Send Email" variant="brand" ></lightning-button>  

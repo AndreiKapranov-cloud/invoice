@@ -13,23 +13,28 @@ public with sharing class EmailHandler {
        
         EmailTemplate emailTemplate =[select Id,Subject,Body from EmailTemplate where name =
         'Sissy'];
-          String tempSubj = emailTemplate.subject;
-          String tempBody = emailTemplate.body;
+          String tempSubj = (emailTemplate.subject).replace('{!Opportunity.Invoice_number__c}', getInvoiceNumber(recordId));
+          String tempBody = (emailTemplate.body).replace('{!Contact.FirstName}', getRecipientFName(recordId));
+       //   tempSubj = tempSubj.replace('{!Opportunity.Invoice_number__c}', getInvoiceNumber(recordId));
+
+
 
 
           Contact con = getCon(recordId);
+         
+          mail.setTemplateId(emailTemplate.Id);
+          
           mail.setTargetObjectId(con.Id);
           mail.setWhatId(recordId);
-          mail.setTemplateId(emailTemplate.Id);
        
-       
-          mail.setToAddresses(toAddress);
+        mail.setToAddresses(toAddress);       
         mail.setReplyTo(userinfo.getUserEmail());
         mail.setSenderDisplayName('Your name here');
         mail.setSubject(tempSubj);
-        if(body == null){
+        mail.setEntityAttachments(new list<Id>{getInvoiceFileId(recordId)});
+        if(String.isBlank(body)){
         mail.setHtmlBody(tempBody);
-        mail.setEntityAttachments(new list<Id>{getInvoiceFileId(recordId)});  //new list<Id> {
+         //new list<Id> {
     }else{
         mail.setHtmlBody(body);
     }
@@ -76,13 +81,22 @@ return InvNum;
     }
     public static Contact getCon(Id idOpportunity){
     OpportunityContactRole opConRole = [select Id,ContactId from OpportunityContactRole where OpportunityId =:idOpportunity and isPrimary = true];
-            return [select Id,Name,Email from Contact where Id = :opConRole.ContactId];
+            return [select Id,Name,FirstName,Email from Contact where Id = :opConRole.ContactId];
     }
     @AuraEnabled(cacheable=true)
-    public static string getRecipient(Id idOpportunity){
+    public static string getRecipientFName(Id idOpportunity){
         try {
             Contact con = getCon(idOpportunity);
-             return con.Name;
+            return con.FirstName; 
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    @AuraEnabled(cacheable=true)
+    public static string getRecipientName(Id idOpportunity){
+        try {
+            Contact con = getCon(idOpportunity);
+            return con.Name; 
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
