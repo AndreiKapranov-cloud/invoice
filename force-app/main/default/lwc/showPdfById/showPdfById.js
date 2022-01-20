@@ -9,6 +9,6 @@ export default class ShowPdfById extends LightningElement {
         return this.heightInRem + 'rem';
     }
     get url() {
-        return '/sfc/servlet.shepherd/document/download/' + this.fileId;
+        return '/sfc/servlet.shepherd/version/download/' + this.fileId + '?operationContext=S1';
     }
 }
