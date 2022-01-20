@@ -11,7 +11,7 @@ public with sharing class EmailHandler {
         System.debug(subject);
        
         EmailTemplate emailTemplate =[select Id,Subject,Body from EmailTemplate where name =
-        'Sissy'];
+        'InvoiceTemplate'];
         String tempSubj = (emailTemplate.subject).replace('{!Opportunity.Invoice_number__c}', getInvoiceNumber(recordId));
         String tempBody = (emailTemplate.body).replace('{!Contact.FirstName}', getRecipientFName(recordId));
       
@@ -50,7 +50,7 @@ public with sharing class EmailHandler {
   @AuraEnabled(cacheable = true)
   public static EmailTemplate getEmailTemplate() {
       return [select Id,Subject,Body from EmailTemplate where name =
-        'Sissy'];
+        'InvoiceTemplate'];
       }
   @AuraEnabled(cacheable=true)
   public static string getInvoiceNumber(Id idOpportunity){
