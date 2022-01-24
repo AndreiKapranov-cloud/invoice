@@ -13,14 +13,14 @@ public with sharing class AccordionController {
     }  
    
     @AuraEnabled( cacheable = true )  
- public static List< Account > fetchAccountsByName( String searchKey ) {  
+    public static List< Account > fetchAccountsByName( String searchKey ) {  
    
      String strKey = '%' + searchKey + '%';  
      return [ SELECT Id,Name,NamePlusOppClosedWon__c,OpportunitiesClosedWon__c FROM Account WHERE Name LIKE: strKey LIMIT 10 ];  
        
- }  
- @AuraEnabled( cacheable = true )  
- public static List< Account > fetchAccountsByNum( String searchKey ) {  
+    }  
+    @AuraEnabled( cacheable = true )  
+    public static List< Account > fetchAccountsByNum( String searchKey ) {  
    
      return [ SELECT Id,Name,NamePlusOppClosedWon__c,OpportunitiesClosedWon__c FROM Account WHERE OpportunitiesClosedWon__c >: (integer.valueof(searchKey)-5) AND OpportunitiesClosedWon__c <: (integer.valueof(searchKey)+5) LIMIT 10 ];  
        

@@ -116,20 +116,16 @@ export default class OpportunityTable extends LightningElement {
     }
    
     openModal() {
-        // to open modal set isModalOpen tarck value as true
         this.isModalOpen = true;
     }
     closeModal() {
-        // to close modal set isModalOpen tarck value as false
         this.isModalOpen = false;
     }
    
     handleRowAction( event ) {  
           
-       // const recId =  event.detail.row.Id; 
         this.opportunityId = event.detail.row.Id; 
         const actionName = event.detail.action.name;  
-      // @wire(getListOfProducts, {accountId: recId}) productNames;
       
       getListOfProducts({ opportunityId: this.opportunityId })
             .then((result) => {
@@ -142,21 +138,9 @@ export default class OpportunityTable extends LightningElement {
             });
     
       if (actionName === 'soldProducts') {
-      //  this.listOfProducts = getListOfProducts(recId);
-            // write your code to open the modal
+      
             this.isModalOpen = true;
      
-     
-     
-     
-     /* this.listOfProducts = getListOfProducts(recId);
-      const actionName = event.detail.action.name;  
-       if (actionName === 'soldProducts') {
-        this.listOfProducts = getListOfProducts(recId);
-            // write your code to open the modal
-            this.isModalOpen = true;
-            
-       */
         }
     }  
     

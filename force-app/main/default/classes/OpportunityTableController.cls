@@ -2,8 +2,8 @@ public with sharing class OpportunityTableController {
     public OpportunityTableController() {
  }
  
- @AuraEnabled(cacheable=true)
-    public static List<Product2> getListOfProducts(String opportunityId){
+      @AuraEnabled(cacheable=true)
+      public static List<Product2> getListOfProducts(String opportunityId){
        try {  
          List<OpportunityLineItem>oppProducts = [select Id,Product2Id from OpportunityLineItem where opportunityId =: opportunityId];
         

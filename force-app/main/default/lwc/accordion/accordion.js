@@ -6,13 +6,16 @@ import fetchAccountsByName  from '@salesforce/apex/AccordionController.fetchAcco
 
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 
-
-
 export default class Accordion extends LightningElement {
     @track accounts;
     @track opportunities;
-   // @track recordId;
-    
+   
+    visibleAccounts;
+
+    updateAccountHandler(event){
+        this.visibleAccounts=[...event.detail.records]
+        console.log(event.detail.records)
+    }
     
 
     @wire(retriveAccounts)
@@ -76,7 +79,18 @@ export default class Accordion extends LightningElement {
         } else  
         this.accounts = undefined;  
   
-    }      
-
+    }    
+    handleNextPage(event){
+        if(this.pageNumber < this.totalPageCount){
+            this.pageNumber = this.pageNumber + 1;
+        }
+        this.handlePageChange();
+    }  
+    handlePrevpage(event){
+        if(this.pageNumber>1){
+            this.pageNumber = this.pageNumber-1;
+            this.handlePageChange();
+        }
+    }
     
 }

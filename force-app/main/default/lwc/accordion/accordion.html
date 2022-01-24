@@ -4,23 +4,21 @@
         </lightning-input>  
         <lightning-input type = "search" onchange = {handleKeyChangeByNumber} class = "slds-m-bottom_small" label = "Search by number of Opportunities Closed Won" >  
         </lightning-input>  
-        <template if:true={accounts}>
-        <lightning-accordion allow-multiple-sections-open>
-            <template for:each={accounts} for:item="acc" for:index="indexVar">
+        <template if:true={visibleAccounts}>
+            <lightning-accordion allow-multiple-sections-open>
+            <template for:each={visibleAccounts} for:item="acc" for:index="indexVar">
                 <lightning-accordion-section key={acc.Id} name={acc.Name} label={acc.NamePlusOppClosedWon__c}>
                     <template if:true={acc.OpportunitiesClosedWon__c} >
                         <c-opportunity-table record-id = {acc.Id}>
                         
                         </c-opportunity-table>
                     </template>
-                </lightning-accordion-section>
-               
-            </template>
-            
-                <c-paginator 
-                ></c-paginator>
-              
+                </lightning-accordion-section>  
+            </template> 
         </lightning-accordion>
-        </template>
+    </template>
+    <div slot="footer" class="slds-var-m-vertical_medium">
+        <c-pager records={accounts} record-size="10" onupdate={updateAccountHandler}></c-pager>
+    </div>
     </lightning-card>
 </template>
