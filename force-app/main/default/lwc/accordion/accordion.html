@@ -1,0 +1,26 @@
+<template>
+    <lightning-card title="Accordion">
+        <lightning-input type = "search" onchange = {handleKeyChangeByName} class = "slds-m-bottom_small" label = "Search by name" >  
+        </lightning-input>  
+        <lightning-input type = "search" onchange = {handleKeyChangeByNumber} class = "slds-m-bottom_small" label = "Search by number of Opportunities Closed Won" >  
+        </lightning-input>  
+        <template if:true={accounts}>
+        <lightning-accordion allow-multiple-sections-open>
+            <template for:each={accounts} for:item="acc" for:index="indexVar">
+                <lightning-accordion-section key={acc.Id} name={acc.Name} label={acc.NamePlusOppClosedWon__c}>
+                    <template if:true={acc.OpportunitiesClosedWon__c} >
+                        <c-opportunity-table record-id = {acc.Id}>
+                        
+                        </c-opportunity-table>
+                    </template>
+                </lightning-accordion-section>
+               
+            </template>
+            
+                <c-paginator 
+                ></c-paginator>
+              
+        </lightning-accordion>
+        </template>
+    </lightning-card>
+</template>

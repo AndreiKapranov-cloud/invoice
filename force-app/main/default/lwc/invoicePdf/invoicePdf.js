@@ -1,5 +1,5 @@
 import { LightningElement,api} from 'lwc';
-import { getRecord, getRecordNotifyChange } from 'lightning/uiRecordApi';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import generatePdf from '@salesforce/apex/CreatePdfController.generatePdf';
 export default class InvoicePdf extends LightningElement {
     @api 
@@ -10,10 +10,27 @@ export default class InvoicePdf extends LightningElement {
         .then(result => {
             
             this.objDocumentLink.Id = result;
-            getRecordNotifyChange([{recordId: this.recordId}]);
+          
             })
          .catch(error => {
             this.error = error;
         });
-}
+       
+   }
+   constructor() {
+    super();
+ 
+    document.addEventListener("lwc://refreshView", () => {
+        const evt = new ShowToastEvent({
+            title: "Info",
+            message: "received refreshView event",
+            variant: "info",
+        });
+        this.dispatchEvent(evt);
+    });
+  }
+ 
+   refreshViews() {
+    document.dispatchEvent(new CustomEvent("aura://refreshView"));
+  }
 }

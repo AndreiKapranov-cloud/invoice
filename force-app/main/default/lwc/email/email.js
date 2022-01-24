@@ -25,6 +25,7 @@ export default class SendEmail extends LightningElement {
     
    showPdf = false;
 
+   
    @wire(getInvoiceNumber, {idOpportunity: '$recordId'}) invoiceNumber;
    @wire(getRecipientFName, {idOpportunity: '$recordId'}) recipientFN;
    @wire(getRecipientName, {idOpportunity: '$recordId'}) recipientName;
