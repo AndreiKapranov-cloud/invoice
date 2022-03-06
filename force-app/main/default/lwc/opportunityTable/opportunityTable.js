@@ -1,5 +1,4 @@
 import { LightningElement, track, wire,api } from 'lwc';
-import { NavigationMixin } from 'lightning/navigation';
 import getOpportunities  from '@salesforce/apex/AccordionController.getOpportunities';
 import fetchAccountsByNum  from '@salesforce/apex/AccordionController.fetchAccountsByNum';
 import fetchAccountsByName  from '@salesforce/apex/AccordionController.fetchAccountsByName';

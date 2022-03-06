@@ -21,7 +21,7 @@ public with sharing class EmailHandler {
         mail.setTargetObjectId(con.Id);
         mail.setWhatId(recordId);
         mail.setToAddresses(toAddress);       
-        mail.setReplyTo(userinfo.getUserEmail());
+        mail.setReplyTo('myemailservice@b-1upgtt71biacjbix8nd62zrhdet2t5g5wu0e6ryfxlflvypnbf.5j-45fhreay.ap27.apex.salesforce.com');
         mail.setSenderDisplayName('Your name here');
         mail.setSubject(tempSubj);
         mail.setEntityAttachments(new list<Id>{getInvoiceFileId(recordId)});

@@ -47,7 +47,7 @@ export default class SendEmail extends LightningElement {
     }                                                                                         
     
     get myBody() {
-        return (this.record?.Body).replace(/{!Contact.FirstName}/g,this.recipientFN.data);                       //JSON.stringify(this.recipient.data));
+        return (this.record?.Body).replace(/{!Contact.FirstName}/g,this.recipientFN.data);                       
     }
   
     handleChangeEmail(event) {
