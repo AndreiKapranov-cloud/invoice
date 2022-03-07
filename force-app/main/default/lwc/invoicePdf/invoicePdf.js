@@ -17,5 +17,20 @@ export default class InvoicePdf extends LightningElement {
         });
        
    }
-  
+   constructor() {
+    super();
+
+    document.addEventListener("lwc://refreshView", () => {
+        const evt = new ShowToastEvent({
+            title: "Info",
+            message: "received refreshView event",
+            variant: "info",
+        });
+        this.dispatchEvent(evt);
+    });
+  }
+
+   refreshViews() {
+    document.dispatchEvent(new CustomEvent("aura://refreshView"));
+  }
 }
