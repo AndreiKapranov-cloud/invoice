@@ -1,5 +1,5 @@
 import { LightningElement,api} from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
 import generatePdf from '@salesforce/apex/CreatePdfController.generatePdf';
 export default class InvoicePdf extends LightningElement {
     @api 
