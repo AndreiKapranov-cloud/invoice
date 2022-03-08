@@ -16,10 +16,10 @@ public with sharing class OpportunityTableController {
             product2Ids.add(oppProd.Product2Id);
          }
          
-         List<Product2>product2s = [select Id,Name from Product2 where Id IN :product2Ids];
+       //  List<Product2>product2s = [select Id,Name from Product2 where Id IN :product2Ids];
 
         
-        return product2s;
+        return [select Id,Name from Product2 where Id IN :product2Ids];
     
       } catch (Exception e) {
           throw new AuraHandledException(e.getMessage());

@@ -41,8 +41,8 @@ public with sharing class EmailHandler {
   @AuraEnabled(cacheable=true)
   public static Opportunity getOpportunity(Id idOpportunity){
       try {
-      Opportunity op = [select Id,Invoice_number__c from Opportunity where Id =: idOpportunity];
-      return op;
+    //  Opportunity op = [select Id,Invoice_number__c from Opportunity where Id =: idOpportunity];
+      return [select Id,Invoice_number__c from Opportunity where Id =: idOpportunity];
       } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
       }
@@ -53,11 +53,11 @@ public with sharing class EmailHandler {
         'InvoiceTemplate'];
       }
   @AuraEnabled(cacheable=true)
-  public static string getInvoiceNumber(Id idOpportunity){
+  public static String getInvoiceNumber(Id idOpportunity){
       try {
   Opportunity opport =[select Id,Invoice_number__c from Opportunity where Id =:idOpportunity];
-      String invNumber = opport.Invoice_number__c;
-      return invNumber;
+     // String invNumber = opport.Invoice_number__c;
+      return opport.Invoice_number__c;
         
       } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
@@ -71,8 +71,8 @@ public with sharing class EmailHandler {
     @AuraEnabled(cacheable=true)
     public static string getRecipientFName(Id idOpportunity){
     try {
-     Contact con = getCon(idOpportunity);
-    return con.FirstName; 
+   //  Contact con = getCon(idOpportunity);
+    return getCon(idOpportunity).FirstName; 
     } catch (Exception e) {
     throw new AuraHandledException(e.getMessage());
      }
@@ -80,8 +80,8 @@ public with sharing class EmailHandler {
     @AuraEnabled(cacheable=true)
     public static string getRecipientName(Id idOpportunity){
         try {
-            Contact con = getCon(idOpportunity);
-            return con.Name; 
+         //   Contact con = getCon(idOpportunity);
+            return getCon(idOpportunity).Name; 
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -89,8 +89,8 @@ public with sharing class EmailHandler {
     @AuraEnabled(cacheable=true)
     public static string getAddress(Id idOpportunity){
         try {
-            Contact con = getCon(idOpportunity);
-            return con.Email;
+        //    Contact con = getCon(idOpportunity);
+            return getCon(idOpportunity).Email;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -101,9 +101,10 @@ public with sharing class EmailHandler {
         try {
         ContentDocumentLink cdl = [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId = :recordId];
        
-        ContentVersion docVersion = [SELECT ContentDocumentId, FileExtension, Title 
-        FROM ContentVersion WHERE ContentDocumentId =: cdl.ContentDocumentId AND FileExtension='pdf' AND IsLatest = true];
-        return docVersion.Id;  
+      //  ContentVersion docVersion = [SELECT ContentDocumentId, FileExtension, Title 
+       // FROM ContentVersion WHERE ContentDocumentId =: cdl.ContentDocumentId AND FileExtension='pdf' AND IsLatest = true];
+        return [SELECT ContentDocumentId, FileExtension, Title 
+         FROM ContentVersion WHERE ContentDocumentId =: cdl.ContentDocumentId AND FileExtension='pdf' AND IsLatest = true].Id;  
         } catch (Exception e) {
         throw new AuraHandledException(e.getMessage());
         }
