@@ -9,7 +9,14 @@ public with sharing class CreatePdfController {
       Opportunity objOpportunity = [SELECT Id,Name,Invoice_number__c FROM Opportunity WHERE Id = :idOpportunity LIMIT 1];
       PageReference objPagePdf = Page.Invoice;
       objPagePdf.getParameters().put('Id', idOpportunity);
-      strPdfBody =  objPagePdf.getContent();
+      
+      
+      
+      if(Test.isRunningTest()){
+        strPdfBody = blob.valueOf('Unit.Test');
+    }else{
+        strPdfBody =  objPagePdf.getContent();}
+      
 
       List <ContentVersion> unique = 
       [select Id,ContentDocumentId from ContentVersion where Title =: objOpportunity.Invoice_number__c ]; 
