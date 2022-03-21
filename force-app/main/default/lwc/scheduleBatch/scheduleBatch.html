@@ -1,0 +1,32 @@
+<template>
+    <lightning-card   >
+        <div class="slds-align_absolute-center">SchedBatch</div>
+        <div class="slds-border_bottom"></div>
+        
+        
+       
+       <div class="slds-m-around_medium"> 
+            <div><b>Schedule Batch</b></div>
+            <div>&nbsp;</div>
+            <p>Description text</p>
+           <!--<div class = "preference">-->
+           <!--<label for="ct"><span class="slds-text-color_destructive">*</span> CRON String </label>-->
+        
+           <lightning-input label="CRON String" id="ct" name="ct"   value={input} onchange={changeHandler} required="Name" field-level-help="CRONCRONCRON"></lightning-input>
+       
+           <!-- </div>-->
+            
+           <p><lightning-formatted-url value="https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_scheduler.htm" tooltip="Read more about scheduling" label="Read more about scheduling" target="_blank" ></lightning-formatted-url></p>
+            
+            
+            <div>&nbsp;</div>
+            <div class="slds-border_bottom"></div>
+            <div>&nbsp;</div>
+            
+            <button class="slds-button slds-button_destructive slds-float_right slds-m-left_x-small  slds-m-bottom_x-small">Abort Batch</button>
+            <lightning-button label="Run Once" variant="brand" class="slds-float_right  slds-m-bottom_x-small"></lightning-button>&nbsp;
+            <div>&nbsp;</div>
+        </div> 
+    </lightning-card>
+   
+</template>
