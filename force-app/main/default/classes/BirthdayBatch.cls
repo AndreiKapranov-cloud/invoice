@@ -1,15 +1,14 @@
-public with sharing class BirthdayBatch implements Database.Batchable<sObject>{
-   // public void execute(System.SchedulableContext ctx){}
-    public database.querylocator start(Database.BatchableContext BC)
+global with sharing class BirthdayBatch implements Database.Batchable<sObject>,Schedulable{
+   
+    global database.querylocator start(Database.BatchableContext BC)
     {
         return Database.getQueryLocator(
             'SELECT Id,FirstName,Email,Birthdate FROM Contact'
         );
     }
-    public void execute(Database.BatchableContext BC, List<Contact> scope)
+    global void execute(Database.BatchableContext BC, List<Contact> scope)
     {    
- // @AuraEnabled
-  //      public static void sendEmail(List<String> toAddress, String subject, String body,Id recordId) {      
+      
           for(Contact con : scope) {
              if(con.Birthdate == Date.today()){
           
@@ -42,9 +41,72 @@ public with sharing class BirthdayBatch implements Database.Batchable<sObject>{
         }
     }
         }
-        public void finish(Database.BatchableContext BC){}
+        global void finish(Database.BatchableContext BC){
+
+        }
+       @AuraEnabled
+       global static void executeBatchOneTime(){
+           try {
+            ID jobID = Database.executeBatch(new BirthdayBatch(),200); 
+           } catch (Exception e) {
+               throw new AuraHandledException(e.getMessage());
+           }
+       }
+       @AuraEnabled
+       global static void scheduleBatch(String cronStr){
+           try {
+            BirthdayBatch bb = new BirthdayBatch();
+           
+            String jobID = System.schedule('Schedule Create Birthday Email', cronStr, bb); 
+           } catch (Exception e) {
+               throw new AuraHandledException(e.getMessage());
+           }
+       }
+       @AuraEnabled
+       global static void execute(SchedulableContext ctx){
+           try {
+            BirthdayBatch bb = new BirthdayBatch();
+            String cronStr = '20 30 8 10 2 ?';
+            String jobID = System.schedule('Schedule Create Birthday Email', cronStr, bb);
+           } catch (Exception e) {
+               throw new AuraHandledException(e.getMessage());
+           }
+        }
+      /* @AuraEnabled
+       global static void abortBatch(){
+          try {
+            
+           CronTrigger ct = [SELECT Id FROM CronTrigger WHERE CronJobDetail.Name='Schedule Batch Job' and 
+           State = 'Waiting'];     
+           System.abortJob(ct.Id);           
+         } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+         }
+        }*/
+         @AuraEnabled
+         global static Boolean abortBatch() {
+           try {
+             List<CronTrigger> cronTriggers = [
+               SELECT Id, CronExpression
+               FROM CronTrigger
+               WHERE CronJobDetail.Name = 'Schedule Batch Job'
+               LIMIT 1
+             ];
+             CronTrigger cronTrigger = (cronTriggers.size() == 1)
+               ? cronTriggers.get(0)
+               : null;
+             System.abortJob(cronTrigger.Id);
+             return true;
+           } catch (Exception e) {
+             System.debug(e.getMessage());
+             return false;
+           }
+         }
+     }
         
-    }
+ 
+   
+    
     
 
 
