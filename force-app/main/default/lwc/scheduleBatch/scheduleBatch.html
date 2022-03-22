@@ -11,9 +11,13 @@
             <p>Description text</p>
            <!--<div class = "preference">-->
            <!--<label for="ct"><span class="slds-text-color_destructive">*</span> CRON String </label>-->
-        
-           <lightning-input onchange={handleCronInput} name="schdlbtch" label="CRON String" value={cron} field-level-help="CRONCRONCRON"></lightning-input>
-       
+           <template if:false={batchScheduled}>
+           <lightning-input onchange={handleCronInput} name="schdlbtch" label="CRON String" value={cron} field-level-help="Seconds Minutes Hours Day_of_month Month Day_of_week Optional_year"  placeholder="0 0 0 * * ?" required></lightning-input>
+           </template>
+           
+           <template if:true={batchScheduled}>
+           <lightning-input onchange={handleCronInput} name="schdlbtch" label="CRON String" value={cron} field-level-help="Seconds Minutes Hours Day_of_month Month Day_of_week Optional_year" placeholder="0 0 0 * * ?" required disabled></lightning-input>
+           </template>
            <!-- </div>-->
             
            <p><lightning-formatted-url value="https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_scheduler.htm" tooltip="Read more about scheduling" label="Read more about scheduling" target="_blank" ></lightning-formatted-url></p>
@@ -25,11 +29,11 @@
             
            <!-- <button onclick={abortBatchHandler} class="slds-button slds-button_destructive slds-float_right slds-m-left_x-small  slds-m-bottom_x-small">Abort Batch</button>-->
            <template if:false={batchScheduled}>
-           <lightning-button onclick={scheduleBatchHandler} label="Schedule batch" variant="brand"  class="slds-m-left_x-small slds-float_right  slds-m-bottom_x-small"></lightning-button>&nbsp;
+           <lightning-button onclick={scheduleBatchHandler} label="Schedule batch" variant="brand"  class="slds-m-left_x-small slds-float_right  slds-m-bottom_x-small" disabled={disableBtn}></lightning-button>&nbsp;
            <lightning-button onclick={executeBatchOneTimeHandler} label="Run Once" variant="brand" class="slds-float_right  slds-m-bottom_x-small"></lightning-button>&nbsp;
            </template>
            <template if:true={batchScheduled}>
-           <button onclick={abortBatchHandler} class="slds-button slds-button_destructive slds-float_right slds-m-left_x-small  slds-m-bottom_x-small">Abort Batch</button>   
+           <button onclick={abortBatchHandler} class="slds-button slds-button_destructive slds-float_right slds-m-left_x-small  slds-m-bottom_x-small" disabled={disableBtn}>Abort Batch</button>   
            <lightning-button onclick={executeBatchOneTimeHandler} label="Run Once" variant="brand" class="slds-float_right  slds-m-bottom_x-small"></lightning-button>&nbsp;
            </template>
 

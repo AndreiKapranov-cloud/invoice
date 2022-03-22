@@ -52,8 +52,8 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>,S
                throw new AuraHandledException(e.getMessage());
            }
        }
-       @AuraEnabled
-       global static void scheduleBatch(String cronStr){
+   /* @AuraEnabled
+       global static void scheduleBatch(SchedulableContext ctx,String cronStr){
            try {
             BirthdayBatch bb = new BirthdayBatch();
            
@@ -61,7 +61,7 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>,S
            } catch (Exception e) {
                throw new AuraHandledException(e.getMessage());
            }
-       }
+       }*/
        @AuraEnabled
        global static void execute(SchedulableContext ctx){
            try {
