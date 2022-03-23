@@ -13,7 +13,7 @@ global with sharing class SchedBatch implements Schedulable,Database.Batchable<s
   }*/
   
    
-  global void execute(SchedulableContext ctx) {
+   global void execute(SchedulableContext ctx) {
     Type newBatchType = Type.forName(batchableClassName);
     Database.executeBatch((Database.Batchable<sObject>)newBatchType.newInstance(),200);
   }

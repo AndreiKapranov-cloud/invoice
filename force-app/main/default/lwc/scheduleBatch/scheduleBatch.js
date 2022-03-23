@@ -1,14 +1,12 @@
 
 import { LightningElement, api, wire, track } from 'lwc';
-import executeBatchOneTime from '@salesforce/apex/BirthdayBatch.executeBatchOneTime';
-import abortBatch from '@salesforce/apex/BirthdayBatch.abortBatch';
+import executeBatchOneTime from '@salesforce/apex/Crossroad.executeBatchOneTime';
+import abortBatch from '@salesforce/apex/Crossroad.abortBatch';
 import scheduleBatch from '@salesforce/apex/Crossroad.scheduleBatch';
 export default class ScheduleBatch extends LightningElement {
     @api schedulableClassName;
     @api batchableClassName;
-    @api title; 
-    @api descriptionText;
-    
+     
     @track cron;
     @track disableBtn = true;
 
@@ -17,7 +15,7 @@ export default class ScheduleBatch extends LightningElement {
     
     executeBatchOneTimeHandler(event) {
  
-        executeBatchOneTime();
+        executeBatchOneTime({batchableClassName:this.batchableClassName});
     }
     handleCronInput(event) {
         if (event.target.name === 'schdlbtch') {   
@@ -27,11 +25,10 @@ export default class ScheduleBatch extends LightningElement {
           }else{
             this.disableBtn = false;
           }
-     }
+       }
     }
     scheduleBatchHandler(event) {
-        
-        
+               
         scheduleBatch({cron:this.cron,schedulableClassName:this.schedulableClassName,
             batchableClassName:this.batchableClassName});
         this.batchScheduled = true;

@@ -1,4 +1,4 @@
-global with sharing class BirthdayBatch implements Database.Batchable<sObject>,Schedulable{
+global with sharing class BirthdayBatch implements Database.Batchable<sObject>{
    
     global database.querylocator start(Database.BatchableContext BC)
     {
@@ -27,8 +27,8 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>,S
             mail.setTargetObjectId(con.Id);
          //   mail.setWhatId(recordId);
             mail.setToAddresses(toAdressList);       
-            mail.setReplyTo('myemailservice@b-1upgtt71biacjbix8nd62zrhdet2t5g5wu0e6ryfxlflvypnbf.5j-45fhreay.ap27.apex.salesforce.com');
-            mail.setSenderDisplayName('Andrei');
+          //  mail.setReplyTo('myemailservice@b-1upgtt71biacjbix8nd62zrhdet2t5g5wu0e6ryfxlflvypnbf.5j-45fhreay.ap27.apex.salesforce.com');
+          //  mail.setSenderDisplayName('Andrei');
             mail.setSubject(emailTemplate.subject);
             
             mail.setHtmlBody(tempBody);
@@ -44,14 +44,18 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>,S
         global void finish(Database.BatchableContext BC){
 
         }
-       @AuraEnabled
+     /*  @AuraEnabled
        global static void executeBatchOneTime(){
            try {
             ID jobID = Database.executeBatch(new BirthdayBatch(),200); 
            } catch (Exception e) {
                throw new AuraHandledException(e.getMessage());
            }
-       }
+       }*/
+
+
+
+
    /* @AuraEnabled
        global static void scheduleBatch(SchedulableContext ctx,String cronStr){
            try {
@@ -62,7 +66,10 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>,S
                throw new AuraHandledException(e.getMessage());
            }
        }*/
-       @AuraEnabled
+  
+  
+  
+       /*@AuraEnabled
        global static void execute(SchedulableContext ctx){
            try {
             BirthdayBatch bb = new BirthdayBatch();
@@ -71,8 +78,11 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>,S
            } catch (Exception e) {
                throw new AuraHandledException(e.getMessage());
            }
-        }
-      /* @AuraEnabled
+        }*/
+     
+     
+     
+        /* @AuraEnabled
        global static void abortBatch(){
           try {
             
@@ -83,7 +93,10 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>,S
             throw new AuraHandledException(e.getMessage());
          }
         }*/
-         @AuraEnabled
+        
+        
+        
+        /*@AuraEnabled
          global static Boolean abortBatch() {
            try {
              List<CronTrigger> cronTriggers = [
@@ -101,7 +114,7 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>,S
              System.debug(e.getMessage());
              return false;
            }
-         }
+         }*/
      }
         
  
