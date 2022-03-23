@@ -9,8 +9,8 @@
     <targetConfigs>
         <targetConfig targets="lightning__AppPage, lightning__HomePage">
             <property name="schedulableClassName" label="Unique schedulableClassName" type="String" required="true" default="SchedBatch"/>
-           <!-- <property name="batchableClassName" label="Unique batchableClassName" type="String" required="true"/>
-            <property name="title" label="Unique title" type="String" required="true"/>
+            <property name="batchableClassName" label="Unique batchableClassName" type="String" required="true" default="BirthdayBatch"/>
+           <!-- <property name="title" label="Unique title" type="String" required="true"/>
             <property name="descriptionText" label="Unique descriptionText" type="String" required="true"/>-->
         </targetConfig>
     </targetConfigs>

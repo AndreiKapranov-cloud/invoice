@@ -31,7 +31,9 @@ export default class ScheduleBatch extends LightningElement {
     }
     scheduleBatchHandler(event) {
         
-        scheduleBatch({cron:this.cron});
+        
+        scheduleBatch({cron:this.cron,schedulableClassName:this.schedulableClassName,
+            batchableClassName:this.batchableClassName});
         this.batchScheduled = true;
     }
     abortBatchHandler(){

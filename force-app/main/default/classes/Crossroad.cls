@@ -1,10 +1,25 @@
 global with sharing class Crossroad implements Schedulable {
     
     @AuraEnabled
-    global static void scheduleBatch(String cron,String schedulableClassName){
+    global static void scheduleBatch(String cron,String schedulableClassName,String batchableClassName){
       try {
         Type newSchedulerType = Type.forName(schedulableClassName);
-        String jobID = System.schedule('Schedule Batch Job', cron, (Schedulable)newSchedulerType.newInstance());
+
+      // (Schedulable) JSON.deserialize(JSON.serialize(new Map<String, Object>{'batchableClassName' => batchableClassName}), newSchedulerType)
+       
+       
+        // String jobID = System.schedule('Schedule Batch Job', cron, (Schedulable)newSchedulerType.newInstance());
+ 
+
+        String jobID = System.schedule('Schedule Batch Job', cron,
+         (Schedulable) JSON.deserialize(JSON.serialize
+          (new Map<String, Object>{'batchableClassName' => batchableClassName}), newSchedulerType));
+   // (Schedulable)newSchedulerType.newInstance() =(Schedulable) JSON.deserialize(JSON.serialize(new Map<String, Object>{'batchableClassName' => batchableClassName}), newSchedulerType)
+
+
+
+
+
       } catch (Exception e) {
         throw new AuraHandledException(e.getMessage());
       }
