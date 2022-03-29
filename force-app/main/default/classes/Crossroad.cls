@@ -1,6 +1,6 @@
 global with sharing class Crossroad implements Schedulable {
  
-  String jobName = 'Schedule Batch Job';
+ 
   
   @AuraEnabled
     global static void scheduleBatch(String cron,String schedulableClassName,String batchableClassName){

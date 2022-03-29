@@ -2,17 +2,18 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>{
    
     global database.querylocator start(Database.BatchableContext BC)
     {
+        Date today = Date.today();
         return Database.getQueryLocator(
-            'SELECT Id,FirstName,Email,Birthdate FROM Contact'
+            'SELECT Id,FirstName,Email FROM Contact where Birthdate =: today'
         );
     }
     global void execute(Database.BatchableContext BC, List<Contact> scope)
     {    
-      
+        Integer emailDaylyLimit = 15;
           for(Contact con : scope) {
-             if(con.Birthdate == Date.today()){
-          
-            Messaging.reserveSingleEmailCapacity(1);
+     //        if(con.Birthdate == Date.today()){
+            
+            Messaging.reserveSingleEmailCapacity(emailDaylyLimit);
             try{
             messaging.SingleEmailMessage mail = new messaging.SingleEmailMessage();
         
@@ -35,7 +36,7 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>{
             catch (exception e){
                 throw new AuraHandledException(e.getMessage());
             }
-        }
+     //   }
     }
         }
         global void finish(Database.BatchableContext BC){
