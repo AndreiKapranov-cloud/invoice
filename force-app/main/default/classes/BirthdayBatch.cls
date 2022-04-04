@@ -2,46 +2,44 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>{
    
     global database.querylocator start(Database.BatchableContext BC)
     {
-        Date today = Date.today();
+        Date today = System.today();
+        Integer day = today.day(); 
+        Integer month = today.month();
         return Database.getQueryLocator(
-            'SELECT Id,FirstName,Email FROM Contact where Birthdate =: today'
+            'SELECT Id,FirstName,Email FROM Contact where CALENDAR_MONTH(Birthdate) = :month and DAY_IN_MONTH(Birthdate) = :day'
         );
     }
     global void execute(Database.BatchableContext BC, List<Contact> scope)
-    {    
-        Integer emailDaylyLimit = 15;
-          for(Contact con : scope) {
-     //        if(con.Birthdate == Date.today()){
-            
+    {  
+        try{
+        List<Messaging.SingleEmailMessage> EmailList = new List<Messaging.SingleEmailMessage>();
+        Integer emailDaylyLimit = 1;
+         for(Contact con : scope) {
+                
             Messaging.reserveSingleEmailCapacity(emailDaylyLimit);
-            try{
+        
             messaging.SingleEmailMessage mail = new messaging.SingleEmailMessage();
         
             EmailTemplate emailTemplate =[select Id,Subject,Body from EmailTemplate where name =
             'BirthdayTemplate'];
             String tempBody = (emailTemplate.body).replace('{!Contact.FirstName}',con.FirstName);
             List<String>toAdressList = new List<String>();
-            toAdressList.add(con.Email);
-            //Contact con = getCon(recordId);           
+            toAdressList.add(con.Email);                    
             mail.setTemplateId(emailTemplate.Id);
-            mail.setTargetObjectId(con.Id);
-            //   mail.setWhatId(recordId);
-            mail.setToAddresses(toAdressList);       
-            //  mail.setReplyTo('myemailservice@b-1upgtt71biacjbix8nd62zrhdet2t5g5wu0e6ryfxlflvypnbf.5j-45fhreay.ap27.apex.salesforce.com');
-            //  mail.setSenderDisplayName('Andrei');
+            mail.setTargetObjectId(con.Id);          
+            mail.setToAddresses(toAdressList);                 
             mail.setSubject(emailTemplate.subject);          
-            mail.setHtmlBody(tempBody);        
-            Messaging.sendEmail(new List<messaging.SingleEmailMessage> {mail});
+            mail.setHtmlBody(tempBody);  
+            EmailList.add(mail);             
             }
+            Messaging.sendEmail(EmailList);
+        }
             catch (exception e){
                 throw new AuraHandledException(e.getMessage());
-            }
-     //   }
-    }
+            }         
         }
         global void finish(Database.BatchableContext BC){
-        }
-    
+        }   
      }
         
  
