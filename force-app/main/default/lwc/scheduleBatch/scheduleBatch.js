@@ -12,7 +12,8 @@ export default class ScheduleBatch extends LightningElement {
     @api batchableClassName;
     
     cronTrigger;
-  
+   
+    
     @track error;
     @track disableBtn = true;
     @track cron;
@@ -37,21 +38,27 @@ export default class ScheduleBatch extends LightningElement {
         if (data) {
             this.cronTrigger = data;
             this.error = undefined;
-            const evt = new ShowToastEvent({
+            let isFirstView = localStorage.getItem('isFirstView') || '';
+            if (isFirstView !== 'Yes') {
+                /* Show message to use as this is first view. */
+                localStorage.setItem('isFirstView', 'Yes');           
+                const evt = new ShowToastEvent({
                 title: 'Success',
                 message: 'Batch Scheduled',
                 variant: 'success',
                 mode: 'dismissable'
             });
             this.dispatchEvent(evt);
+        }
         }else if (error){
             console.log('Something went wrong:', error);
         }         
     }
+    
 
-    executeBatchOneTimeHandler(event) {
+   executeBatchOneTimeHandler(event) {
        
-     executeBatchOneTime({batchableClassName:this.batchableClassName})
+   executeBatchOneTime({batchableClassName:this.batchableClassName})
    .then((result) =>{   
     let delayInMilliseconds = 2000;
 
@@ -107,7 +114,6 @@ export default class ScheduleBatch extends LightningElement {
             .then(result =>{   
                            
             this.batchScheduled = true;
-
             })
             .catch(error => {
                 const evt = new ShowToastEvent({
@@ -120,14 +126,44 @@ export default class ScheduleBatch extends LightningElement {
                 this.batchScheduled = false;
                 this.disableBtn = true;   
             });
-     
-       getCT();          
+            localStorage.setItem('isFirstView', 'No');
+      getCT();          
         }        
+    
     abortBatchHandler(){
         
         abortBatch();
         this.batchScheduled = false;
         this.disableBtn = true;
+        let delayInMillisecond = 2000;
+
+        setTimeout(function() {
+            getCronTrigger()
+            .then((result) => {
+               if(result.data){
+                const evt = new ShowToastEvent({
+                    title: 'Error',
+                    message: 'Batch Not Aborted',
+                    variant: 'error',
+                    mode: 'dismissable'
+                });
+                this.dispatchEvent(evt); 
+            }else{
+                
+                    const evt = new ShowToastEvent({
+                        title: 'Success',
+                        message: 'Batch Aborted',
+                        variant: 'success',
+                        mode: 'dismissable'
+                    });
+                    this.dispatchEvent(evt);  
+            }    
+           
+            })
+            .catch(error => {
+                this.error = error;
+            }); 
+           
+        }, delayInMillisecond);                
     }
-  
 }

@@ -8,7 +8,7 @@ global with sharing class Crossroad implements Schedulable {
     String jobID = System.schedule('Schedule Batch Job', cron,
     (Schedulable) JSON.deserialize(JSON.serialize
     (new Map<String, Object>{'batchableClassName' => batchableClassName}), newSchedulerType));
-  
+    
     } catch (Exception e) {
     throw new AuraHandledException(e.getMessage());
     }
