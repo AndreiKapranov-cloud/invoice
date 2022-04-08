@@ -7,6 +7,7 @@ import scheduleBatch from '@salesforce/apex/Crossroad.scheduleBatch';
 import getCronExpression from '@salesforce/apex/Crossroad.getCronExpression';
 import getCronTrigger from '@salesforce/apex/Crossroad.getCronTrigger';
 import getAsyncApexJobId from '@salesforce/apex/Crossroad.getAsyncApexJobId';
+import getCronTriggerForAbort from '@salesforce/apex/Crossroad.getCronTriggerForAbort';
 export default class ScheduleBatch extends LightningElement {
     @api schedulableClassName;
     @api batchableClassName;
@@ -18,7 +19,7 @@ export default class ScheduleBatch extends LightningElement {
     @track disableBtn = true;
     @track cron;
     
-    @track fff;
+    @track delResult;
     @track batchScheduled = false;
    
     @wire(getCronExpression)
@@ -132,15 +133,17 @@ export default class ScheduleBatch extends LightningElement {
     
     abortBatchHandler(){
         
-        abortBatch();
-        this.batchScheduled = false;
-        this.disableBtn = true;
+       abortBatch();
+       this.batchScheduled = false;
+       this.disableBtn = true;
         let delayInMillisecond = 2000;
 
         setTimeout(function() {
-            getCronTrigger()
-            .then((result) => {
-               if(result.data){
+            
+         getCronTriggerForAbort()
+            .then(result => {
+                this.delResult = result;
+               if(result){
                 const evt = new ShowToastEvent({
                     title: 'Error',
                     message: 'Batch Not Aborted',
@@ -148,15 +151,14 @@ export default class ScheduleBatch extends LightningElement {
                     mode: 'dismissable'
                 });
                 this.dispatchEvent(evt); 
-            }else{
-                
+            }else{           
                     const evt = new ShowToastEvent({
                         title: 'Success',
                         message: 'Batch Aborted',
                         variant: 'success',
                         mode: 'dismissable'
                     });
-                    this.dispatchEvent(evt);  
+                    this.dispatchEvent(evt);            
             }    
            
             })

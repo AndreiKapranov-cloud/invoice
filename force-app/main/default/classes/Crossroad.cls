@@ -74,4 +74,17 @@ global with sharing class Crossroad implements Schedulable {
      return false;
        }
    }   
+   @AuraEnabled(cacheable=true)
+   global static CronTrigger getCronTriggerForAbort() {       
+    List<CronTrigger> cronTriggers = [
+    SELECT Id, CronExpression
+    FROM CronTrigger
+    WHERE CronJobDetail.Name = 'Schedule Batch Job'
+    LIMIT 1
+     ];
+     CronTrigger cronTrigger = (cronTriggers.size() == 1)
+       ? cronTriggers.get(0)
+       : null;       
+       return cronTrigger;
+      }
 }
