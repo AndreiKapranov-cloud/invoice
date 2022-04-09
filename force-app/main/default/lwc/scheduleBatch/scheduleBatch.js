@@ -159,8 +159,7 @@ export default class ScheduleBatch extends LightningElement {
                         mode: 'dismissable'
                     });
                     this.dispatchEvent(evt);            
-            }    
-           
+                  }              
             })
             .catch(error => {
                 this.error = error;

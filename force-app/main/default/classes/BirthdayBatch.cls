@@ -13,15 +13,12 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>{
     {  
         try{
         List<Messaging.SingleEmailMessage> EmailList = new List<Messaging.SingleEmailMessage>();
-        Integer emailDaylyLimit = 1;
-         for(Contact con : scope) {
-                
-            Messaging.reserveSingleEmailCapacity(emailDaylyLimit);
-        
-            messaging.SingleEmailMessage mail = new messaging.SingleEmailMessage();
-        
-            EmailTemplate emailTemplate =[select Id,Subject,Body from EmailTemplate where name =
+        Messaging.reserveSingleEmailCapacity(1);
+        EmailTemplate emailTemplate =[select Id,Subject,Body from EmailTemplate where name =
             'BirthdayTemplate'];
+         for(Contact con : scope) {
+                 
+            Messaging.SingleEmailMessage mail = new messaging.SingleEmailMessage(); 
             String tempBody = (emailTemplate.body).replace('{!Contact.FirstName}',con.FirstName);
             List<String>toAdressList = new List<String>();
             toAdressList.add(con.Email);                    
@@ -30,6 +27,7 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>{
             mail.setToAddresses(toAdressList);                 
             mail.setSubject(emailTemplate.subject);          
             mail.setHtmlBody(tempBody);  
+            
             EmailList.add(mail);             
             }
             Messaging.sendEmail(EmailList);
