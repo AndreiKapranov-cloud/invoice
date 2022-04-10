@@ -99,7 +99,8 @@ export default class ScheduleBatch extends LightningElement {
     handleCronInput(event) {
         if (event.target.name === 'schdlbtch') {   
         this.cron = event.target.value;
-        if(this.cron == null || this.cron == ''||this.cron.length < 11){
+        let cronLength  = 11;
+        if(this.cron == null || this.cron == ''||this.cron.length < cronLength){
             this.disableBtn = true;
           }else{
             this.disableBtn = false;
