@@ -19,7 +19,6 @@ export default class ScheduleBatch extends LightningElement {
     @track disableBtn = true;
     @track cron;
     
-    @track delResult;
     @track batchScheduled = false;
    
     @wire(getCronExpression)
@@ -142,7 +141,6 @@ export default class ScheduleBatch extends LightningElement {
             
          getCronTriggerForAbort()
             .then(result => {
-                this.delResult = result;
                if(result){
                 const evt = new ShowToastEvent({
                     title: 'Error',
