@@ -26,5 +26,3 @@ public with sharing class AccordionController {
        
  }  
 }
-
-

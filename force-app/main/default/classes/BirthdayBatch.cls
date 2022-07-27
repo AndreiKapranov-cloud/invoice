@@ -39,10 +39,3 @@ global with sharing class BirthdayBatch implements Database.Batchable<sObject>{
         global void finish(Database.BatchableContext BC){
         }   
      }
-        
- 
-   
-    
-    
-
-

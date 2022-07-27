@@ -32,7 +32,7 @@ const columns = [{
         name: 'soldProducts',
         value: 'soldProducts',
         disabled: false,  
-        variant: 'brand',
+     //   variant: 'brand',
         class: 'scaled-down'
     }
 }];

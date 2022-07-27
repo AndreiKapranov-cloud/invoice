@@ -1,0 +1,257 @@
+<apex:page standardController="Opportunity" extensions="CreateOppExtension" applyHtmlTag="false" showHeader="false" renderAs="PDF">
+   
+     
+      
+    <html>
+        <head>
+           <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+            
+            <style type="text/css">
+        @page { 
+            size: a4;
+        }   
+    </style>
+    <style type="text/css" media="print">
+                       @page {
+                       margin-top: 600px;
+                       margin-bottom:300px;
+                                 @top-center {
+                                       content: element(header);
+                               }
+                               @bottom-left {
+                                     content: element(footer);
+                               }
+                            }
+                                     div.header {
+                                      padding: 1px;
+                                      position: running(header);
+                           }
+                       div.footer {
+                                display: block;
+                             padding: 1px;
+                               position: running(footer);
+                      }
+                                     .pagenumber:before {
+                                        content: counter(page);
+                       }
+                                   .pagecount:before {
+                             content: counter(pages);
+                        }
+                    </style>
+            <style>
+                
+                * {
+                box-sizing: border-box;
+                }
+                
+                .heading {
+                font-weight: bold;
+                }
+                
+                .heading--main {
+                font-size: 36px;
+                }
+                
+           .table-bordered {
+                border: 1px solid #B8B8B8;
+                border-collapse : collapse;
+                
+            }
+        
+   table {
+   border: 1px solid black;
+  
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+tr:last-child{ /*this will select last tr*/
+      border: 2px solid black;}
+<!--tr.row td:last-child {
+  border-right: thin solid black;
+  border-down: thin solid white;
+
+}     --> 
+ tr.row td:last-child {
+  border-right: thin solid black;
+}     
+td {
+  
+     
+  border: 1px solid #B8B8B8;
+  text-align: left;
+  padding: 8px;
+  border-top: none;
+  border-bottom: none;
+  font-weight: 50;
+  border-bottom:1px solid #B8B8B8;
+  border-top:1px solid #FFFFFF;
+}
+
+
+th {
+  
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 2px;
+  padding-right: 2px;
+  
+  background-color:#FF6347;
+  
+}
+
+
+ 
+ 
+        p{
+      background-color: #FF6347; /* Цвет фона под текстом параграфа */
+      padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 500px;
+  padding-right: 10px;
+     }
+              
+               .heading--main {
+                font-size: 36px;
+                }
+                     
+           
+.heading--sub {
+                font-size: 21px;
+                font-weight: 400;
+                }
+.heading--small {
+                font-size: 15px;
+                font-weight: 400;
+                }                
+            .tempName{ color: #A0A0A0; font-family:sans-serif; font-size: 14pt; } 
+            .tempLane{color: #00008B;font-family:sans-serif; font-size: 7pt;font-weight: bold;}
+            
+            .yourCompBig{font-family:sans-serif; font-size: 10pt;color: #585858;  }
+            .yourCompSmall{color: #A0A0A0; font-family:sans-serif; font-size: 6pt;color: #585858;  }
+            .billTo{ font-family:sans-serif; font-size: 9pt; }
+            .bDue{font-family:sans-serif; font-size: 10pt; font-weight:bold;}
+            
+            </style>
+            
+        </head>
+       
+        <body>
+         <div class="header">
+            
+     <th >
+       &nbsp; 
+        </th>
+  
+  
+   <div  style="background-color:#F5F5F5;height:200px;">
+   
+   <div><img style = "position:absolute;left:30px;top:160px;height:100px;width:100px; " src="https://images-platform.99static.com//f2sZeDTWz0zmbhEKgE20Z5iXLk8=/321x792:1166x1637/fit-in/500x500/99designs-contests-attachments/89/89914/attachment_89914782">
+     </img></div>
+   <div  style="position:absolute;left:150px;top:150px;font-colour:#A8A8A8;">
+      <h1 class ="yourCompBig" >{!$Organization.Name}</h1>
+      
+      <h1  class = "yourCompSmall"  >{!$Organization.Street}</h1>           
+   
+      <h1  class = "yourCompSmall"  >{!$Organization.City}</h1>           
+      
+      <h1  class = "yourCompSmall"  >{!$Organization.PostalCode}</h1>           
+     
+      <h1  class = "yourCompSmall"  >{!$Organization.Country}</h1>           
+      
+      <h1  class = "yourCompSmall" >{!oppOwnerName}</h1>           
+        
+      </div>
+             
+            
+      <div  style=" position:absolute;left:550px;top:170px;" >
+      <h1 ><center class="tempName" style = "color grey;font-weight: 400;">INVOICE</center></h1>
+      <br></br>
+      <h1  style ="font-family: arial, sans-serif;font-size: 10px;text-align:center;"><center class="tempLane"><apex:outputText value=" {0,date,M/d/yyy }">
+              <apex:param value="{! NOW() }" /></apex:outputText></center></h1>
+      <hr class = "horLine" />
+      <br></br>
+      <h1  style ="font-family: arial, sans-serif;font-size: 10px;text-align:center;"><center class="tempLane">{!opp.Invoice_number__c}</center></h1>
+      <hr />
+      </div>        
+      </div>  
+     
+     
+      <div style="margin-top:20px;margin-bottom:20px;padding-right:20px;padding-left:20px;" >
+  
+      <h1 class="tempLane">Bill TO</h1>
+      <hr/>
+      <h1  class = "billTo" >{!oppConRoleContact.Name}</h1>
+
+      <h1  class = "billTo" >{!oppConRoleContactAccount.Name}</h1>
+
+      <h1  class = "billTo" >{!oppConRoleContact.Phone}</h1>
+
+      <h1  class = "billTo" >{!oppConRoleContact.Email}</h1>
+
+      </div>
+      </div>
+  
+  
+  
+  
+   <div class="footer" >
+   <div style = "height:100px;"></div>
+  <!-- <div class="box-half">-->
+   <th style = "color:white;text-align: center;">{!$Organization.Name}</th>
+   <div>Page <span class="pagenumber"/> of <span class="pagecount"/></div>
+   <!--</div>-->
+   </div>        
+   
+   
+  
+
+    <div class="content" style = "padding-right:20px;padding-left:20px;"> 
+    <!--<div class="box--full">-->
+               
+                <table style="width: 100%;border-bottom:1px;" >
+                    <tr>                       
+                        <th style="width: 50%;color:white;text-align: center;">product name</th>
+                        <th style="width: 14%;color:white;text-align: center;">qty</th>
+                        <th style="width: 18%;color:white;text-align: center;">unit price</th>
+                        <th style="width: 18%;color:white;text-align: center;">total</th>
+                      
+                   </tr>
+                    
+                   <apex:variable var="trcolor" value="#FFFFFF"/>
+                   <apex:repeat var="oppProd" value="{!oppProducts}">
+                        <tr style="background-color: {!trcolor}">
+                            <td class = "billTo" style="!{IF(MOD(count,2)==0, 'background-color: #A4A4A4;','background-color: #E6E6E6;')};text-align: left;">{!oppProd.ProductName__c}</td>
+                            <td class = "billTo" style ="text-align: center;">{!oppProd.quantity}</td>
+                            <td class = "billTo" style="text-align: right;">{!oppProd.unitPrice}</td>
+                            <td class = "billTo" style="text-align: right;">{!oppProd.totalPrice}</td>
+                        </tr>
+                   <apex:variable var="trcolor" value="{!IF(trcolor == '#FFFFFF', '#F5F5F5', '#FFFFFF')}"/>
+                     
+                   </apex:repeat> 
+                   
+                   
+                   
+                   <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td class = "yourCompBig" style = "text-align:right;">Balance Due:</td>
+                   <td class = "bDue" style =" background-color: #FFB6C1;font-weight: bold;text-align:center;">${!balanceDue}</td>
+                   </tr>
+                  
+                </table>
+                
+             <!--   </div>-->
+              
+           </div>
+          
+      
+  
+       
+      </body>
+            
+                  
+    </html>
+    
+
+</apex:page>
