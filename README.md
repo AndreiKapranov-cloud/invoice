@@ -38,7 +38,8 @@ ContentDocument.
   closed opportunities should be displayed on each block header button.The body of the block contains table
   with info about opportunity:Opportunity name(link to opportunity);Created date;Close date;Amount;a button that 
   opens a modal window with a list of sold products(Opportunity Product).There must be search by Name of Account
-  and by total sum of all Opportunities in each Account.
+  and by total sum of all Opportunities in each Account.Pagination-10 accounts on a page.If component is placed on an 
+  account page:depict info only about this account,hide pagination and search.
     
 
 
