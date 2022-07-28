@@ -30,6 +30,15 @@ ContentDocument.
   We recieved a confirmation letter.The component should find Opportunity by the Invoice number.If the Opportunity
   is still waiting for confirmation - should parse the email response and change status of the Opportunity.If response 
   is 'Approved' - then move to next status,if Rejected - move to status 'Close Lost'.
+  
+  
+  
+  Create new LWC component which we could place on a distinct tab in our org,or at an Account detail page.
+  If distinct tab,then the component should contain:-lightning-accordion,account name and total sum of all 
+  closed opportunities should be displayed on each block header button.The body of the block contains table
+  with info about opportunity:Opportunity name(link to opportunity);Created date;Close date;Amount;a button that 
+  opens a modal window with a list of sold products(Opportunity Product).There must be search by Name of Account
+  and by total sum of all Opportunities in each Account.
     
 
 
