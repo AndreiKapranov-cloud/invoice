@@ -14,7 +14,7 @@ Should process all Contact records every day.And if it's client's birth day,shou
 Create an Email Template.Implement a Batch class,implement a schedule for everyday implementing of the logic.
 
 Create an LWC component to manage our sending companies.We need to manage our schedulers directly from the user's interface.
-The component should allow us:1.Launch the concrete batch one time.2.Launch the scheduler.3.Abort the scheduler.
+The component should allow us to:1.Launch the concrete batch one time.2.Launch the scheduler.3.Abort the scheduler.
 
 The component shouldn't work with specific class,but accept the name of the Batch and the name of the Scheduler 
 as parameters.We should provide a generic component,that can be reused.
