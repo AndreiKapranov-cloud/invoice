@@ -46,7 +46,29 @@ ContentDocument.
   
   
   Second task:
-  Create a Rest Web Service that would help a bank send us data about 
+  Create a Rest Web Service that would help a bank send us data about the payment of invoices.
+  First create the data model.Create an object Payment containing nexxt fields:
+  1.Name(Auto Number)-standart field.
+  2.Opportunity(Master Detail)-link to the Opportunity record.
+  3.Amount(Number 16,2)-info about the sum of paiment.
+  4.FirstName.
+  5.LastName.
+  Rest Web Service:1.Access to Web Service - OAuth Technology.
+  2.POST HTTP method.
+  3.JSON structure:
+  {
+   "payments":[
+    {
+     "Opportunity":{String},
+     "Amount":{Decimal},
+     "FirstName":{String},
+     "LastName":{String}
+     }
+    ]
+   }
+   4.When sending a request to our Web Service new Payment Object records would be created.
+   Trigger.
+  
     
 
 
