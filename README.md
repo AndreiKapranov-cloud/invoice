@@ -1,3 +1,5 @@
+ The project consists of two tasks:
+ First task:
  1.Create visualforce page that will generate a PDF page with data based on Opportunity.
 The header contains info about our company from settings of our organization.
 In the 'Bill To' section the info about the client must be displayed.The info comes from Opportunity Contact Role 
@@ -40,6 +42,11 @@ ContentDocument.
   opens a modal window with a list of sold products(Opportunity Product).There must be search by Name of Account
   and by total sum of all Opportunities in each Account.Pagination-10 accounts on a page.If component is placed on an 
   account page:depict info only about this account,hide pagination and search.
+  
+  
+  
+  Second task:
+  Create a Rest Web Service that would help a bank send us data about 
     
 
 
