@@ -74,7 +74,18 @@ ContentDocument.
    send the goods.
     Create a trigger on the Payment object.The trigger has to sum the total payment balance for each Opportunity record
     based on the records of the Payment records.If partially paid-move the Opportunity to "Partially Paid" status.
-    If fully paid-move to "Fully Paid" status and create a Task for the user about sending the goods.
+    If fully paid-move to "Fully Paid" status and create a Task for the user on sending the goods.
+    
+    
+    Batch,Scheduler.
+    Should process all Contact records every day.And if it's client's birth day,should send him a letter with congratulations.
+    Create an Email Template.Implement a Batch class,implement a schedule for everyday implementing of the logic.
+    
+    Create an LWC component to manage our sending companies.We need to manage our schedulers directly from the user's interface.
+    The component should allow us:1.Launch the concrete batch one time.2.Launch the scheduler.3.Abort the scheduler.
+    
+    The component shouldn't work with specific class,but accept the name of the Batch and the name of the Scheduler 
+    as parameters.We should provide a generic component,that can be reused.
   
     
 
