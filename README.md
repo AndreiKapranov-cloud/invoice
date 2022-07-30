@@ -67,7 +67,14 @@ ContentDocument.
     ]
    }
    4.When sending a request to our Web Service new Payment Object records would be created.
+   
    Trigger.
+   When invoice payment recieved the status of the Opportunity records should change:"Partially paid" or
+   "Fully paid".When fully paid-need to create a Task for the user,responsible for the Opportunity,to remind him to 
+   send the goods.
+    Create a trigger on the Payment object.The trigger has to sum the total payment balance for each Opportunity record
+    based on the records of the Payment records.If partially paid-move the Opportunity to "Partially Paid" status.
+    If fully paid-move to "Fully Paid" status and create a Task for the user about sending the goods.
   
     
 
